@@ -1,21 +1,5 @@
 <template>
-    <div
-        class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8"
-    >
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-                class="mx-auto h-10 w-auto"
-                src="/public/images/logo.png"
-                alt="Your Company"
-            />
-            <h2
-                class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
-            >
-                Create your account
-            </h2>
-        </div>
-
-        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <AuthLayout title="Create your account">
             <form class="space-y-6" @submit="register">
                 <Alert v-if="Object.keys(errors).length">
                     <div>
@@ -139,20 +123,20 @@
             <p class="mt-10 text-center text-sm text-gray-500">
                 Already have an existing account?
                 {{ " " }}
-                <a
-                    href="#"
+                <router-link
+                    :to="{ path: '/login' }"
                     class="font-semibold leading-6 text-yellow-600 hover:text-yellow-500"
-                    >Login</a
+                    >Login</router-link
                 >
             </p>
-        </div>
-    </div>
+        </AuthLayout>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import store from "../../store";
 import Alert from "../../components/Alert.vue";
+import AuthLayout from "../../components/layouts/AuthLayout.vue";
 
 const user = ref({
     name: "",

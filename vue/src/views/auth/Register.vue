@@ -17,6 +17,41 @@
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form class="space-y-6" @submit="register">
+                <Alert v-if="Object.keys(errors).length">
+                    <div>
+                        <div v-for="(field, i) of Object.keys(errors)">
+                            <div
+                                v-for="(error, ind) of errors[field] || []"
+                                :key="ind"
+                                class="block"
+                            >
+                                {{ error }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start h-auto">
+                        <span
+                            @click="errors = {}"
+                            class="cursor-pointer transition-colors hover:bg-[rgba(0,0,0,0.2)] w-6 h-6 rounded-full"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-6 h-6"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                />
+                            </svg>
+                        </span>
+                    </div>
+                </Alert>
                 <div>
                     <label
                         for="name"
@@ -114,32 +149,36 @@
     </div>
 </template>
 
-
 <script setup>
-
-import { ref } from 'vue'
-import store from '../../store'
+import { ref } from "vue";
+import store from "../../store";
+import Alert from "../../components/Alert.vue";
 
 const user = ref({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: ''
-})
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+});
 
+const errors = ref({});
 
 function register(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    console.log('Working');
+    console.log("Working");
     console.log(user);
 
-    store.dispatch('register', user.value).then((res) => {
-        console.log('User created successfully!');
-    }).catch((e) => {
-        console.log('Error' . e);
-    })
+    store
+        .dispatch("register", user.value)
+        .then((res) => {
+            console.log("User created successfully!");
+        })
+        .catch((e) => {
+            if (e.response.status === 422) {
+                errors.value = e.response.data.errors;
+                console.log(errors.value);
+            }
+        });
 }
-
-
 </script>

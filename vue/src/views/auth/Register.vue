@@ -5,7 +5,7 @@
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
                 class="mx-auto h-10 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=fuchsia&shade=600"
+                src="/public/images/logo.png"
                 alt="Your Company"
             />
             <h2
@@ -66,7 +66,7 @@
                             autocomplete="name"
                             v-model="user.name"
                             required=""
-                            class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-fuchsia-500 focus:outline-none focus:ring-fuchsia-500 sm:text-sm"
+                            class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                         />
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                             autocomplete="email"
                             v-model="user.email"
                             required=""
-                            class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-fuchsia-500 focus:outline-none focus:ring-fuchsia-500 sm:text-sm"
+                            class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                         />
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                             v-model="user.password"
                             autocomplete="current-password"
                             required=""
-                            class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-fuchsia-500 focus:outline-none focus:ring-fuchsia-500 sm:text-sm"
+                            class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                         />
                     </div>
                 </div>
@@ -122,14 +122,14 @@
                         autocomplete="current-password-confirmation"
                         v-model="user.password_confirmation"
                         required=""
-                        class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-fuchsia-500 focus:outline-none focus:ring-fuchsia-500 sm:text-sm"
+                        class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                     />
                 </div>
 
                 <div>
                     <button
                         type="submit"
-                        class="flex w-full justify-center rounded-md bg-fuchsia-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-fuchsia-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia-600"
+                        class="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
                     >
                         Sign in
                     </button>
@@ -141,7 +141,7 @@
                 {{ " " }}
                 <a
                     href="#"
-                    class="font-semibold leading-6 text-fuchsia-600 hover:text-fuchsia-500"
+                    class="font-semibold leading-6 text-yellow-600 hover:text-yellow-500"
                     >Login</a
                 >
             </p>

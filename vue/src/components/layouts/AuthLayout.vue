@@ -5,7 +5,7 @@
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
                 class="mx-auto h-10 w-auto"
-                src="/public/images/logo.png"
+                src="/images/logo.png"
                 alt="Your Company"
             />
             <h2

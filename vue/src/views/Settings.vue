@@ -1,5 +1,5 @@
 <template>
-    <PageComponent title="Dashboard">
+    <PageComponent title="Settings">
 
     </PageComponent>
 </template>

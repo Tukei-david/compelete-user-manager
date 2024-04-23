@@ -2,7 +2,7 @@
     <AuthLayout title="Create your account">
             <form class="space-y-6" @submit="register">
                 <Alert v-if="Object.keys(errors).length">
-                    <div>
+                    <div class="text-sm">
                         <div v-for="(field, i) of Object.keys(errors)">
                             <div
                                 v-for="(error, ind) of errors[field] || []"

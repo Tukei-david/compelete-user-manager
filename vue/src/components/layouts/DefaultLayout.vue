@@ -173,6 +173,7 @@
         </Disclosure>
 
         <router-view></router-view>
+        <Notification/>
     </div>
 </template>
 
@@ -187,6 +188,7 @@ import {
     MenuItems,
 } from "@headlessui/vue";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import Notification from "../Notification.vue";
 
 const user = {
     name: "Tom Cook",

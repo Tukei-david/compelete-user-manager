@@ -140,10 +140,13 @@ function login(ev) {
     store
         .dispatch("login", user.value)
         .then(() => {
+            store.commit('notify', {
+                type: 'success',
+                message: 'You have succesfully logged in!'
+            })
             router.push({
                 name: "Dashboard",
             });
-            console.log("Succesfully logged in!");
         })
         .catch((err) => {
             console.log(err);

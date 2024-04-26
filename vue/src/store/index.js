@@ -24,6 +24,17 @@ const store = createStore({
             const { data } = await axiosClient.post('/login', user)
             commit('setUser', data)
             return data
+        },
+        async logout({ commit }) {
+            const response = await axiosClient.post('/logout')
+            commit('logout')
+            return response
+        },
+        async getCurrentUser({ commit }, user) {
+            const { data } = await axiosClient.get('/user', user)
+            commit('setUser', data)
+            console.log('User', data);
+            return data
         }
     },
     mutations: {

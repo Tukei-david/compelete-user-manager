@@ -189,6 +189,9 @@ import {
 } from "@headlessui/vue";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import Notification from "../Notification.vue";
+import { onMounted, computed } from "vue";
+import { storeKey } from "vuex";
+import store from '../../store'
 
 const user = {
     name: "Tom Cook",
@@ -205,4 +208,13 @@ const userNavigation = [
     { name: "Settings", href: "settings" },
     { name: "Sign out", href: "#" },
 ];
+
+const currentUser = computed(() => store.state.user.data)
+
+
+onMounted( async () => {
+    await store.dispatch('getCurrentUser')
+})
+
+
 </script>

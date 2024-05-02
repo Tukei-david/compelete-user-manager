@@ -190,8 +190,7 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import Notification from "../Notification.vue";
 import { onMounted, computed } from "vue";
-import { storeKey } from "vuex";
-import store from '../../store'
+import { useStore } from "vuex";
 
 const user = {
     name: "Tom Cook",
@@ -209,11 +208,15 @@ const userNavigation = [
     { name: "Sign out", href: "#" },
 ];
 
-const currentUser = computed(() => store.state.user.data)
+
+// Get user
+const store = useStore()
+const currentUser = computed(() => console.log(store.state.user.data))
 
 
 onMounted( async () => {
-    await store.dispatch('getCurrentUser')
+    await store.dispatch('getCurrentUser');
+    console.log('User on Mount', currentUser.value)
 })
 
 

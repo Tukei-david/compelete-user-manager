@@ -136,6 +136,7 @@
                                 :src="user.imageUrl"
                                 alt=""
                             />
+                            {{ currentUser }}
                         </div>
                         <div class="ml-3">
                             <div

@@ -57,10 +57,19 @@ class AuthController extends Controller
 
         /** @var \App\Models\User $user **/
         $user = Auth::user();
+
+        // Check if user is admin
+        if (!$user->is_admin) {
+            Auth::logout();
+            return response([
+                'message' => 'You don\'t have permission to authenticate as admin'
+            ], 403);
+        }
+
         $token = $user->createToken('main')->plainTextToken;
 
         return response([
-            'user' => $user,
+            'user' => new UserResource($user),
             'token' => $token
         ]);
     }

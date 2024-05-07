@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-full">
+    <div class="min-h-full" v-if="currentUser.id">
         <Disclosure as="nav" class="bg-yellow-800" v-slot="{ open }">
             <div class="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 items-center justify-between">
@@ -46,12 +46,13 @@
                             <Menu as="div" class="relative ml-3">
                                 <div>
                                     <MenuButton
-                                        class="relative flex max-w-xs items-center rounded-full bg-yellow-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-yellow-800"
+                                        class="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-yellow-800 px-2 py-1 shadow-xl"
                                     >
                                         <span class="absolute -inset-1.5" />
                                         <span class="sr-only"
                                             >Open user menu</span
                                         >
+                                        <p class="font-medium px-2 text-yellow-400 ">{{ currentUser.name }}</p>
                                         <img
                                             class="h-8 w-8 rounded-full"
                                             :src="user.imageUrl"
@@ -191,7 +192,7 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import Notification from "../Notification.vue";
 import { onMounted, computed } from "vue";
-import { useStore } from "vuex";
+import store from "../../store";
 
 const user = {
     name: "Tom Cook",
@@ -211,13 +212,12 @@ const userNavigation = [
 
 
 // Get user
-const store = useStore()
-const currentUser = computed(() => console.log(store.state.user.data))
+const currentUser = computed(() => store.state.user.data);
 
 
-onMounted( async () => {
-    await store.dispatch('getCurrentUser');
-    console.log('User on Mount', currentUser.value)
+onMounted( () => {
+    store.dispatch('getCurrentUser');
+    console.log('User on Mount', currentUser)
 })
 
 

@@ -24,9 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="bg-white border-b border-gray-400 hover:bg-gray-50">
-                    <UserDetails />
-                </tr>
+                <UserDetails v-for="(user, ind) in users.data" :key="user.id" :user="user" />
             </tbody>
         </table>
         <nav
@@ -99,4 +97,15 @@
 
 <script setup>
     import UserDetails from './UserDetails.vue';
+    import store from '../../store'
+    import { computed, onMounted } from 'vue';
+
+    
+    const users = computed(() => store.state.users)
+
+    onMounted(() => {
+        store.dispatch('getUsers')
+        console.log('Users on mount', users.data);
+    })
+
 </script>

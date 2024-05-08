@@ -23,12 +23,17 @@ export function logout({ commit }, data) {
     })
 }
 
+export function getUsers({ commit }, { url = null } = {}) {
+    url = url || '/users'
 
-
-
-
-
-
+    commit('setUsersLoading', true)
+    return axiosClient.get(url).then((res) => {
+        console.log('res', res.data);
+        commit('setUsersLoading', false)
+        commit('setUsers', res.data)
+        return
+    })
+}
 
 
 

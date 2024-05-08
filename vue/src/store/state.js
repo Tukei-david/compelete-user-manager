@@ -8,4 +8,9 @@ export default {
         type: null,
         message: null,
     },
+    users: {
+        loading: false,
+        data: [],
+        links: [],
+    }
 };

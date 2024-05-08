@@ -143,7 +143,7 @@
                             <div
                                 class="text-base font-medium leading-none text-white"
                             >
-                                {{ user.name }}
+                                Testing
                             </div>
                             <div
                                 class="text-sm font-medium leading-none text-yellow-400"

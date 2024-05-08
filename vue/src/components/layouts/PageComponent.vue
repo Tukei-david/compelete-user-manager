@@ -1,10 +1,12 @@
 <template>
     <header class="bg-white shadow">
         <div class="mx-auto max-w-8xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold tracking-tight text-yellow-900">
+            <div class="d-flex justify-between">
+                <h1 class="text-3xl font-bold tracking-tight text-yellow-900">
                 {{ title }}
             </h1>
             <slot name="header"></slot>
+            </div>
         </div>
     </header>
     <main>

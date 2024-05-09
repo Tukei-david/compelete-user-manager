@@ -1,60 +1,39 @@
-import axiosClient from "../axios"
+import axiosClient from "../includes/axios";
 
 export function getCurrentUser({ commit }, data) {
-    return axiosClient.get('/user', data).then(({ data }) => {
-        console.log('Store getting user', data.data);
-        commit('setUser', data.data)
-        return data
-    })
+    return axiosClient.get("/user", data).then(({ data }) => {
+        console.log("Store getting user", data.data);
+        commit("setUser", data.data);
+        return data;
+    });
 }
 
 export function login({ commit }, data) {
-    return axiosClient.post('/login', data).then(({ data }) => {
-        commit('setUser', data.user)
-        commit('setToken', data.token)
-        return data
-    })
+    return axiosClient.post("/login", data).then(({ data }) => {
+        commit("setUser", data.user);
+        commit("setToken", data.token);
+        return data;
+    });
 }
 
 export function logout({ commit }, data) {
-    return axiosClient.post('/logout').then((response) => {
-        commit('setToken', null)
-        return response
-    })
+    return axiosClient.post("/logout").then((response) => {
+        commit("setToken", null);
+        return response;
+    });
 }
 
 export function getUsers({ commit }, { url = null } = {}) {
-    url = url || '/users'
+    url = url || "/users";
 
-    commit('setUsersLoading', true)
+    commit("setUsersLoading", true);
     return axiosClient.get(url).then((res) => {
-        console.log('res', res.data);
-        commit('setUsersLoading', false)
-        commit('setUsers', res.data)
-        return
-    })
+        console.log("res", res.data);
+        commit("setUsersLoading", false);
+        commit("setUsers", res.data);
+        return;
+    });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // const store = createStore({
 //     state: {

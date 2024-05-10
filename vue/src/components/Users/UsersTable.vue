@@ -23,7 +23,15 @@
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody v-if="users.loading || !users.data.length">
+                <tr>
+                    <td colspan="6">
+                        <Spinner v-if="users.loading"/>
+                        <p v-else class="text-center py-8 text-gray-700">There are no users</p>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody v-else>
                 <UserDetails v-for="(user, ind) in users.data" :key="user.id" :user="user" />
             </tbody>
         </table>
@@ -99,13 +107,14 @@
     import UserDetails from './UserDetails.vue';
     import store from '../../store'
     import { computed, onMounted } from 'vue';
+    import Spinner from '../core/Spinner.vue';
 
     
     const users = computed(() => store.state.users)
 
     onMounted(() => {
         store.dispatch('getUsers')
-        console.log('Users on mount', users.data);
+        console.log('Users on mount', users);
     })
 
 </script>

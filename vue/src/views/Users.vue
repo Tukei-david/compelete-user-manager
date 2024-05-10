@@ -3,8 +3,8 @@
         <template v-slot:header>
             <div class="flex justify-between items-center">
                 <h1 class="text-3xl font-bold tracking-tight text-yellow-900">Users</h1>
-                <router-link
-                    :to="{ name: 'Dashboard' }"
+                <button
+                    @click="showAddNewModal"
                     class="py-2 px-3 text-white bg-yellow-500 rounded-md hover:bg-yellow-600"
                 >
                     <svg
@@ -23,16 +23,41 @@
                     </svg>
 
                     Add new User
-                </router-link>
+                </button>
             </div>
         </template>
-        <UsersTable/>
+        <UsersTable @clickEdit="editUser"/>
+        <UserModal v-model="showUserModal" :user="userModel" @close="onModalClose"/>
     </PageComponent>
 </template>
 
 <script setup>
 
+import { ref } from 'vue';
 import PageComponent from '../components/layouts/PageComponent.vue';
 import UsersTable from '../components/Users/UsersTable.vue';
+import UserModal from '../components/Users/UserModal.vue'
+
+const DEFAULT_USER = {
+    id: '',
+    name: '',
+    email: ''
+}
+
+const userModel = ref({...DEFAULT_USER})
+const showUserModal = ref(false)
+
+function showAddNewModal() {
+    showUserModal.value = true
+}
+
+function onModalClose() {
+    userModel.value = {...DEFAULT_USER}
+}
+
+function editUser(u) {
+    userModel.value = u
+    showAddNewModal()
+}
 
 </script>

@@ -98,10 +98,12 @@
             </tbody>
         </table>
         <nav
+            v-if="!users.loading"
             class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
             aria-label="Table navigation"
         >
             <span
+                v-if="users.data.length"
                 class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto"
                 >Showing
                 <span class="font-semibold text-gray-900">{{
@@ -112,14 +114,14 @@
                     users.to
                 }}</span></span
             >
-            <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+            <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8" v-if="users.total > users.limit">
                 <li v-for="(link, i) of users.links" :key="i">
                     <a
                         v-html="link.label"
                         @disabled="!link.url"
-                        @click="getForPage($event, link.url)"
+                        @click="getForPage(link)"
                         href="#"
-                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border"
+                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border"
                         :class="[
                             link.active
                                 ? 'z-10 bg-gray-700 border-gray-400 text-white'
@@ -139,7 +141,6 @@ import store from "../../store";
 import { computed, onMounted } from "vue";
 import Spinner from "../core/Spinner.vue";
 import Paginator from "../core/Paginator.vue";
-import { getUsers } from "../../store/actions";
 
 const emit = defineEmits(["clickEdit", "clickDelete"]);
 const users = computed(() => store.state.users);
@@ -157,13 +158,12 @@ function deleteUser(p) {
     emit("clickDelete", p);
 }
 
-function getForPage(ev, link) {
+function getForPage(link) {
     console.log(link);
-    ev.preventDefault()
-    // if (!link.url || link.active) {
-    //     return
-    // }
+    if (!link.url || link.active) {
+        return
+    }
     window.scrollTo(0, 0);
-    getUsers(link);
+    store.dispatch("getUsers", { url: link.url })
 }
 </script>

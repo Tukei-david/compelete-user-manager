@@ -35,6 +35,10 @@ export function getUsers({ commit }, { url = null } = {}) {
     });
 }
 
+export function deleteUser({ commit }, id) {
+    return axiosClient.delete(`/users/${id}`)
+}
+
 // const store = createStore({
 //     state: {
 //         user: {

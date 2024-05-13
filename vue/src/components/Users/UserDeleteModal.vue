@@ -32,15 +32,15 @@
                             class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
                         >
                             <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                                Are you sure want to delete the user. There is no retreiving the user.
+                                Are you sure want to delete <b class="text-red-600">{{ user.name }}</b>. This process is permanent!.
                             </div>
                             <div
                                 class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
                             >
                                 <button
+                                    @click="deleteUser(user)"
                                     type="button"
                                     class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                                    @click="open = false"
                                 >
                                     Delete
                                 </button>
@@ -62,37 +62,60 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, onUpdated, ref } from "vue";
 import {
     Dialog,
     DialogPanel,
     TransitionChild,
     TransitionRoot,
 } from "@headlessui/vue";
+import store from "../../store";
 
 const props = defineProps({
     modelValue: Boolean,
     user: {
-      required: true,
-      type: Object,
-    }
+        required: true,
+        type: Object,
+    },
 });
 
 const user = ref({
-  id: props.user.id,
-  name: props.user.name,
-  email: props.user.email
-})
+    id: props.user.id,
+    name: props.user.name,
+    email: props.user.email,
+});
+
+onUpdated(() => {
+    user.value = {
+        id: props.user.id,
+        name: props.user.name,
+        email: props.user.email,
+    };
+});
+
+onMounted(() => {
+    console.log("User on Delete", user);
+});
 
 const open = computed({
     get: () => props.modelValue,
     set: (value) => emit("update:modelValue", value),
 });
 
-const emit = defineEmits(["update:modelValue", "close"])
+const emit = defineEmits(["update:modelValue", "close"]);
 
 function closeModal() {
-    open.value = false
-    emit("close")
+    open.value = false;
+    emit("close");
+}
+
+function deleteUser(user) {
+    store.dispatch("deleteUser", user.id);
+    store.commit("notify", {
+        type: "success",
+        message: `You have succesfully deleted ${user.name}`,
+    });
+    closeModal();
+    store.dispatch("getUsers");
 }
 </script>

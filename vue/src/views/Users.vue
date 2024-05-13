@@ -39,6 +39,7 @@ import PageComponent from '../components/layouts/PageComponent.vue';
 import UsersTable from '../components/Users/UsersTable.vue';
 import UserModal from '../components/Users/UserModal.vue'
 import UserDeleteModal from '../components/Users/UserDeleteModal.vue';
+
 const DEFAULT_USER = {
     id: '',
     name: '',

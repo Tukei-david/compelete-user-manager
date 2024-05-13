@@ -76,7 +76,9 @@
                                     />
                                 </svg>
                             </button>
-                            <button>
+                            <button
+                                @click="deleteUser(user)"
+                            >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -170,7 +172,7 @@ import store from "../../store";
 import { computed, onMounted } from "vue";
 import Spinner from "../core/Spinner.vue";
 
-const emit = defineEmits(["clickEdit"]);
+const emit = defineEmits(["clickEdit", "clickDelete"]);
 const users = computed(() => store.state.users);
 
 onMounted(() => {
@@ -181,5 +183,10 @@ onMounted(() => {
 function editUser(p) {
     emit("clickEdit", p);
     console.log("Working");
+}
+
+function deleteUser(p) {
+    emit("clickDelete", p)
+    console.log("Working")
 }
 </script>

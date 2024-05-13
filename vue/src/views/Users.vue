@@ -26,8 +26,9 @@
                 </button>
             </div>
         </template>
-        <UsersTable @clickEdit="editUser"/>
+        <UsersTable @clickEdit="editUser" @clickDelete="deleteUser"/>
         <UserModal v-model="showUserModal" :user="userModel" @close="onModalClose"/>
+        <UserDeleteModal v-model="showUserDeleteModel" :user="userModel" @close="onDeleteModalClose"/>
     </PageComponent>
 </template>
 
@@ -37,7 +38,7 @@ import { ref } from 'vue';
 import PageComponent from '../components/layouts/PageComponent.vue';
 import UsersTable from '../components/Users/UsersTable.vue';
 import UserModal from '../components/Users/UserModal.vue'
-
+import UserDeleteModal from '../components/Users/UserDeleteModal.vue';
 const DEFAULT_USER = {
     id: '',
     name: '',
@@ -46,6 +47,7 @@ const DEFAULT_USER = {
 
 const userModel = ref({...DEFAULT_USER})
 const showUserModal = ref(false)
+const showUserDeleteModel = ref(false)
 
 function showAddNewModal() {
     showUserModal.value = true
@@ -58,6 +60,21 @@ function onModalClose() {
 function editUser(u) {
     userModel.value = u
     showAddNewModal()
+}
+
+
+
+function showDeleteModal() {
+    showUserDeleteModel.value = true
+}
+
+function onDeleteModalClose() {
+    userModel.value = {...DEFAULT_USER}
+}
+
+function deleteUser(u) {
+    userModel.value = u
+    showDeleteModal()
 }
 
 </script>

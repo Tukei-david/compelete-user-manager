@@ -23,8 +23,17 @@ export function notify(state, { message, type }) {
 
 export function setUsers(state, data) {
     
-    state.users.data = data.data;
-    state.users.links = data.meta?.links;
+    state.users = {
+        ...state.users,
+        data: data.data,
+        links: data.meta?.links,
+        page: data.meta.current_page,
+        last_page: data.meta.last_page,
+        limit: data.meta.per_page,
+        to: data.meta.to,
+        total: data.meta.total,
+        from: data.meta.from
+    }
 
 }
 

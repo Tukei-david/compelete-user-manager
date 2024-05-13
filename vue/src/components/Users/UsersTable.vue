@@ -76,9 +76,7 @@
                                     />
                                 </svg>
                             </button>
-                            <button
-                                @click="deleteUser(user)"
-                            >
+                            <button @click="deleteUser(user)">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -106,60 +104,30 @@
             <span
                 class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto"
                 >Showing
-                <span class="font-semibold text-gray-900">1-10</span>
+                <span class="font-semibold text-gray-900">{{
+                    users.from
+                }}</span>
                 of
-                <span class="font-semibold text-gray-900">1000</span></span
+                <span class="font-semibold text-gray-900">{{
+                    users.to
+                }}</span></span
             >
             <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-                <li>
+                <li v-for="(link, i) of users.links" :key="i">
                     <a
+                        v-html="link.label"
+                        @disabled="!link.url"
+                        @click="getForPage($event, link.url)"
                         href="#"
-                        class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border rounded-s-lg hover:bg-gray-100 hover:text-gray-700 border-gray-400 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        >Previous</a
-                    >
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border hover:bg-gray-100 hover:text-gray-700 border-gray-400 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        >1</a
-                    >
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border hover:bg-gray-100 hover:text-gray-700 border-gray-400 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        >2</a
-                    >
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        aria-current="page"
-                        class="flex items-center justify-center px-3 h-8 text-yellow-600 border bg-yellow-50 hover:bg-yellow-100 hover:text-yellow-700 border-gray-400 dark:bg-gray-700"
-                        >3</a
-                    >
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border hover:bg-gray-100 hover:text-gray-700 border-gray-400 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        >4</a
-                    >
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border hover:bg-gray-100 hover:text-gray-700 border-gray-400 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        >5</a
-                    >
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border rounded-e-lg hover:bg-gray-100 hover:text-gray-700 border-gray-400 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        >Next</a
-                    >
+                        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border"
+                        :class="[
+                            link.active
+                                ? 'z-10 bg-gray-700 border-gray-400 text-white'
+                                : 'hover:bg-gray-700 hover:text-white border-gray-400',
+                            i === 0 ? 'rounded-l-md' : '',
+                            i === users.links.length - 1 ? 'rounded-r-md' : '',
+                        ]"
+                    ></a>
                 </li>
             </ul>
         </nav>
@@ -167,10 +135,11 @@
 </template>
 
 <script setup>
-import UserDetails from "./UserDetails.vue";
 import store from "../../store";
 import { computed, onMounted } from "vue";
 import Spinner from "../core/Spinner.vue";
+import Paginator from "../core/Paginator.vue";
+import { getUsers } from "../../store/actions";
 
 const emit = defineEmits(["clickEdit", "clickDelete"]);
 const users = computed(() => store.state.users);
@@ -182,11 +151,19 @@ onMounted(() => {
 
 function editUser(p) {
     emit("clickEdit", p);
-    console.log("Working");
 }
 
 function deleteUser(p) {
-    emit("clickDelete", p)
-    console.log("Working")
+    emit("clickDelete", p);
+}
+
+function getForPage(ev, link) {
+    console.log(link);
+    ev.preventDefault()
+    // if (!link.url || link.active) {
+    //     return
+    // }
+    window.scrollTo(0, 0);
+    getUsers(link);
 }
 </script>

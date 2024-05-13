@@ -25,7 +25,7 @@ export function logout({ commit }, data) {
 
 export function getUsers({ commit }, { url = null } = {}) {
     url = url || "/users";
-
+    console.log(url);
     commit("setUsersLoading", true);
     return axiosClient.get(url).then((res) => {
         console.log("res", res.data);

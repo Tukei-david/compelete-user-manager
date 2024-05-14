@@ -162,7 +162,7 @@ import {
     TransitionChild,
     TransitionRoot,
 } from "@headlessui/vue";
-import store from "../../store"
+import store from "../../store";
 
 const props = defineProps({
     modelValue: Boolean,
@@ -196,11 +196,26 @@ const emit = defineEmits(["update:modelValue", "close"]);
 function closeModal() {
     open.value = false;
     emit("close");
+    store.dispatch("getUsers");
 }
 
 function saveUser() {
-    console.log("User on Create", user.value);
-    
-    store.dispatch("saveUser", { ...user.value })
+    let action = "created";
+
+    if (user.value.id) {
+        action = "updated";
+    }
+
+    store.dispatch("saveUser", { ...user.value }).then((res) => {
+        store.commit("notify", {
+            type: "success",
+            message: `You have succesfully ${action} ${user.value.name}`,
+        });
+        closeModal();
+    }).catch((e) => {
+        console.log('Error', e);
+    })
+
+
 }
 </script>

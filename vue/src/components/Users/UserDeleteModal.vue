@@ -103,6 +103,7 @@ const emit = defineEmits(["update:modelValue", "close"]);
 function closeModal() {
     open.value = false;
     emit("close");
+    store.dispatch("getUsers");
 }
 
 function deleteUser(user) {
@@ -112,6 +113,6 @@ function deleteUser(user) {
         message: `You have succesfully deleted ${user.name}`,
     });
     closeModal();
-    store.dispatch("getUsers");
+    
 }
 </script>

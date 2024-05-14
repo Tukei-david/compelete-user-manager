@@ -147,7 +147,6 @@ const users = computed(() => store.state.users);
 
 onMounted(() => {
     store.dispatch("getUsers");
-    console.log("Users on mount", users);
 });
 
 function editUser(p) {

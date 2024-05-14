@@ -19,7 +19,6 @@ const currentUser = computed(() => store.state.user.data);
 
 onMounted( () => {
     store.dispatch('getCurrentUser');
-    console.log('User on Mount', currentUser)
 })
 
 

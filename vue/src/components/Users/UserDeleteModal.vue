@@ -93,10 +93,6 @@ onUpdated(() => {
     };
 });
 
-onMounted(() => {
-    console.log("User on Delete", user);
-});
-
 const open = computed({
     get: () => props.modelValue,
     set: (value) => emit("update:modelValue", value),

@@ -37,7 +37,11 @@
                                 <DialogTitle
                                     as="h3"
                                     class="text-lg font-medium leading-6 text-gray-900"
-                                    >Add New User</DialogTitle
+                                    >{{
+                                        user.id
+                                            ? `Update User: ${props.user.name}`
+                                            : "Create new User"
+                                    }}</DialogTitle
                                 >
                                 <button
                                     @click="closeModal"
@@ -60,7 +64,7 @@
                                 </button>
                             </header>
                             <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                                <form action="">
+                                <form @submit.prevent="saveUser">
                                     <div>
                                         <label
                                             for="name"
@@ -72,6 +76,7 @@
                                                 id="name"
                                                 name="name"
                                                 type="text"
+                                                v-model="user.name"
                                                 autocomplete="name"
                                                 required=""
                                                 class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
@@ -90,6 +95,7 @@
                                                 id="email"
                                                 name="email"
                                                 type="email"
+                                                v-model="user.email"
                                                 autocomplete="email"
                                                 required=""
                                                 class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
@@ -108,32 +114,36 @@
                                                 id="password"
                                                 name="password"
                                                 type="password"
+                                                v-model="user.password"
                                                 autocomplete="current-password"
                                                 required=""
                                                 class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                                             />
                                         </div>
                                     </div>
+                                    <div
+                                        class="py-6 sm:flex sm:flex-row-reverse"
+                                    >
+                                        <button
+                                            type="submit"
+                                            class="inline-flex w-full justify-center rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 sm:ml-3 sm:w-auto"
+                                        >
+                                            {{
+                                                user.id
+                                                    ? "Update User"
+                                                    : "Create User"
+                                            }}
+                                        </button>
+                                        <button
+                                            @click="closeModal"
+                                            type="button"
+                                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                            ref="cancelButtonRef"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
                                 </form>
-                            </div>
-                            <div
-                                class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
-                            >
-                                <button
-                                    type="button"
-                                    class="inline-flex w-full justify-center rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 sm:ml-3 sm:w-auto"
-                                    @click="open = false"
-                                >
-                                    Add User
-                                </button>
-                                <button
-                                    @click="closeModal"
-                                    type="button"
-                                    class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                                    ref="cancelButtonRef"
-                                >
-                                    Cancel
-                                </button>
                             </div>
                         </DialogPanel>
                     </TransitionChild>
@@ -144,7 +154,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onUpdated, onMounted, ref } from "vue";
 import {
     Dialog,
     DialogPanel,
@@ -152,30 +162,45 @@ import {
     TransitionChild,
     TransitionRoot,
 } from "@headlessui/vue";
+import store from "../../store"
 
 const props = defineProps({
     modelValue: Boolean,
     user: {
-      required: true,
-      type: Object,
-    }
+        required: true,
+        type: Object,
+    },
 });
 
 const user = ref({
-  id: props.user.id,
-  name: props.user.name,
-  email: props.user.email
-})
+    id: props.user.id,
+    name: props.user.name,
+    email: props.user.email,
+});
+
+onUpdated(() => {
+    user.value = {
+        id: props.user.id,
+        name: props.user.name,
+        email: props.user.email,
+    };
+});
 
 const open = computed({
     get: () => props.modelValue,
     set: (value) => emit("update:modelValue", value),
 });
 
-const emit = defineEmits(["update:modelValue", "close"])
+const emit = defineEmits(["update:modelValue", "close"]);
 
 function closeModal() {
-    open.value = false
-    emit("close")
+    open.value = false;
+    emit("close");
+}
+
+function saveUser() {
+    console.log("User on Create", user.value);
+    
+    store.dispatch("saveUser", { ...user.value })
 }
 </script>

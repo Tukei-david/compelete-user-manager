@@ -63,7 +63,51 @@
                                     </svg>
                                 </button>
                             </header>
-                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                            <Spinner v-if="loading" />
+                            <div
+                                class="bg-white px-4 pb-4 pt-2z sm:p-6 sm:pb-4"
+                                v-else
+                            >
+                                <Alert v-if="Object.keys(errors).length" :class="[ Object.keys(errors).length ? 'mb-3' : ''  ]">
+                                    <div class="text-sm" >
+                                        <div
+                                            v-for="(field, i) of Object.keys(
+                                                errors
+                                            )"
+                                        >
+                                            <div
+                                                v-for="(error, ind) of errors[
+                                                    field
+                                                ] || []"
+                                                :key="ind"
+                                                class="block"
+                                            >
+                                                {{ error }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm">
+                                        <span
+                                            @click="errors = ''"
+                                            class="cursor-pointer transition-colors hover:bg-[rgba(0,0,0,0.2)] w-6 h-6 rounded-full"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke-width="1.5"
+                                                stroke="currentColor"
+                                                class="w-6 h-6"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                                />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </Alert>
                                 <form @submit.prevent="saveUser">
                                     <div>
                                         <label
@@ -163,6 +207,8 @@ import {
     TransitionRoot,
 } from "@headlessui/vue";
 import store from "../../store";
+import Spinner from "../core/Spinner.vue";
+import Alert from "../Alert.vue";
 
 const props = defineProps({
     modelValue: Boolean,
@@ -177,6 +223,9 @@ const user = ref({
     name: props.user.name,
     email: props.user.email,
 });
+
+const loading = ref(false);
+const errors = ref("");
 
 onUpdated(() => {
     user.value = {
@@ -197,25 +246,31 @@ function closeModal() {
     open.value = false;
     emit("close");
     store.dispatch("getUsers");
+    errors.value = ""
 }
 
 function saveUser() {
+    loading.value = true;
     let action = "created";
 
     if (user.value.id) {
         action = "updated";
     }
 
-    store.dispatch("saveUser", { ...user.value }).then((res) => {
-        store.commit("notify", {
-            type: "success",
-            message: `You have succesfully ${action} ${user.value.name}`,
+    store
+        .dispatch("saveUser", { ...user.value })
+        .then((res) => {
+            loading.value = false;
+            store.commit("notify", {
+                type: "success",
+                message: `You have succesfully ${action} ${user.value.name}`,
+            });
+            closeModal();
+        })
+        .catch((e) => {
+            loading.value = false;
+            console.log("Error", e);
+            errors.value = e.response.data.errors;
         });
-        closeModal();
-    }).catch((e) => {
-        console.log('Error', e);
-    })
-
-
 }
 </script>

@@ -17,14 +17,11 @@
                                 :key="item.name"
                                 :to="{ name: item.to }"
                                 :class="[
-                                    item.current
-                                        ? 'bg-yellow-900 text-white'
-                                        : 'text-yellow-300 hover:bg-yellow-700 hover:text-white',
-                                    'rounded-md px-3 py-2 text-sm font-medium',
+                                    this.$route.name === item.to
+                                    ? 'bg-yellow-900 text-white'
+                                    : 'text-yellow-300 hover:bg-yellow-700 hover:text-white',
+                                    'rounded-md px-3 py-2 text-sm font-medium'
                                 ]"
-                                :aria-current="
-                                    item.current ? 'page' : undefined
-                                "
                                 >{{ item.name }}</router-link
                             >
                         </div>

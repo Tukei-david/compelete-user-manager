@@ -5,6 +5,7 @@ import Register from "../views/auth/Register.vue";
 import Profile from "../views/Profile.vue";
 import Settings from "../views/Settings.vue";
 import Users from "../views/Users.vue";
+import VerifyMail from "../views/auth/VerifyMail.vue"
 import DefaultLayout from "../components/layouts/DefaultLayout.vue";
 import store from "../store";
 
@@ -49,6 +50,11 @@ const routes = [
         name: "Register",
         meta: { isGuest: true },
         component: Register,
+    },
+    {
+        path: "/verify-mail",
+        name: "VerifyMail",
+        component: VerifyMail,
     },
 ];
 

@@ -1,15 +1,22 @@
 <template>
-    <AuthLayout title="Sign in to your account">
-        <form class="space-y-6" @submit="login">
-            <Alert v-if="errors">
+    <AuthLayout title="Reset Password">
+        <form class="space-y-6" @submit="resetPassword">
+            <Alert v-if="Object.keys(errors).length">
                 <div class="text-sm">
-                    <div>
-                        {{ errors }}
+                    <div v-for="(field, i) of Object.keys(errors)">
+                        <div
+                            v-for="(error, ind) of errors[field] || []"
+                            :key="ind"
+                            class="block"
+                        >
+                            {{ error }}
+                        </div>
                     </div>
                 </div>
-                <div class="text-sm">
+
+                <div class="flex items-start h-auto">
                     <span
-                        @click="errors = ''"
+                        @click="errors = {}"
                         class="cursor-pointer transition-colors hover:bg-[rgba(0,0,0,0.2)] w-6 h-6 rounded-full"
                     >
                         <svg
@@ -29,6 +36,7 @@
                     </span>
                 </div>
             </Alert>
+
             <div>
                 <label
                     for="email"
@@ -42,55 +50,46 @@
                         type="email"
                         autocomplete="email"
                         v-model="user.email"
-                        required
-                        class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
+                        required=""
+                        class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                     />
                 </div>
             </div>
 
             <div>
-                <div class="flex items-center justify-between">
+                <div class="mt-2">
                     <label
                         for="password"
                         class="block text-sm font-medium leading-6 text-gray-900"
                         >Password</label
                     >
-                    <div class="text-sm">
-                        <router-link
-                            :to="{ name: 'ForgotPassword' }"
-                            class="font-semibold text-yellow-600 hover:text-yellow-500"
-                            >Forgot password?</router-link
-                        >
-                    </div>
-                </div>
-                <div class="mt-2">
                     <input
                         id="password"
                         name="password"
                         type="password"
-                        autocomplete="current-password"
                         v-model="user.password"
-                        required
-                        class="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
+                        autocomplete="current-password"
+                        required=""
+                        class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                     />
                 </div>
             </div>
 
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <input
-                        id="remember-me"
-                        name="remember-me"
-                        type="checkbox"
-                        v-model="user.remember"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <label
-                        for="remember-me"
-                        class="ml-2 block text-sm text-gray-900"
-                        >Remember me</label
-                    >
-                </div>
+            <div>
+                <label
+                    for="password-confirmation"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                    >Confirm Password</label
+                >
+                <input
+                    id="password-confirmation"
+                    name="password-confirmation"
+                    type="password"
+                    autocomplete="current-password-confirmation"
+                    v-model="user.password_confirmation"
+                    required=""
+                    class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
+                />
             </div>
 
             <div>
@@ -119,18 +118,16 @@
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                     </svg>
-                    Sign in
+                    Reset Password
                 </button>
             </div>
         </form>
 
         <p class="mt-10 text-center text-sm text-gray-500">
-            Not a member?
-            {{ " " }}
             <router-link
-                :to="{ name: 'Register' }"
+                :to="{ path: '/login' }"
                 class="font-semibold leading-6 text-yellow-600 hover:text-yellow-500"
-                >Register here</router-link
+                >Back to sign in</router-link
             >
         </p>
     </AuthLayout>
@@ -138,41 +135,26 @@
 
 <script setup>
 import { ref } from "vue";
-import AuthLayout from "../../components/layouts/AuthLayout.vue";
 import store from "../../store";
-import { useRouter } from "vue-router";
 import Alert from "../../components/Alert.vue";
+import AuthLayout from "../../components/layouts/AuthLayout.vue";
+import { useRouter } from "vue-router";
 
 const user = ref({
+    name: "",
     email: "",
     password: "",
-    remember: false,
+    password_confirmation: "",
 });
 
-const errors = ref("");
+const errors = ref({});
 const loading = ref(false)
 const router = useRouter();
 
-function login(ev) {
-    ev.preventDefault();
+function resetPassword(e) {
+    e.preventDefault();
 
     loading.value = true
 
-    store
-        .dispatch("login", user.value)
-        .then(() => {
-            loading.value = false
-            store.commit("notify", {
-                type: "success",
-                message: "You have succesfully logged in!",
-            });
-            router.push({
-                name: "Dashboard",
-            });
-        })
-        .catch((err) => {
-            loading.value = false
-            errors.value = err.response.data.error;
-        });
 }
 </script>

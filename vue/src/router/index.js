@@ -5,6 +5,8 @@ import Register from "../views/auth/Register.vue";
 import Profile from "../views/Profile.vue";
 import Settings from "../views/Settings.vue";
 import Users from "../views/Users.vue";
+import ForgotPassword from "../views/auth/ForgotPassword.vue"
+import ResetPassword from "../views/auth/ResetPassword.vue"
 import DefaultLayout from "../components/layouts/DefaultLayout.vue";
 import store from "../store";
 
@@ -49,6 +51,18 @@ const routes = [
         name: "Register",
         meta: { isGuest: true },
         component: Register,
+    },
+    {
+        path: "/forgot-password",
+        name: "ForgotPassword",
+        meta: { isGuest: true },
+        component: ForgotPassword,
+    },
+    {
+        path: "/reset-password",
+        name: "ResetPassword",
+        meta: { isGuest: true },
+        component: ResetPassword,
     },
 ];
 

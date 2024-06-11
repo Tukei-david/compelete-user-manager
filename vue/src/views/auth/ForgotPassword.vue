@@ -1,6 +1,11 @@
 <template>
-    <AuthLayout title="Sign in to your account">
-        <form class="space-y-6" @submit="login">
+    <AuthLayout title="Forgot your password">
+        <div class="-mt-5 mb-5">
+            <p class="text-center text-gray-900 font-normal">
+                We will send an email to your box, just follow that link to set your new password.
+            </p>
+        </div>
+        <form class="space-y-6" @submit="forgotPassword">
             <Alert v-if="errors">
                 <div class="text-sm">
                     <div>
@@ -33,7 +38,7 @@
                 <label
                     for="email"
                     class="block text-sm font-medium leading-6 text-gray-900"
-                    >Email address</label
+                    >Username or email</label
                 >
                 <div class="mt-2">
                     <input
@@ -45,51 +50,6 @@
                         required
                         class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
                     />
-                </div>
-            </div>
-
-            <div>
-                <div class="flex items-center justify-between">
-                    <label
-                        for="password"
-                        class="block text-sm font-medium leading-6 text-gray-900"
-                        >Password</label
-                    >
-                    <div class="text-sm">
-                        <router-link
-                            :to="{ name: 'ForgotPassword' }"
-                            class="font-semibold text-yellow-600 hover:text-yellow-500"
-                            >Forgot password?</router-link
-                        >
-                    </div>
-                </div>
-                <div class="mt-2">
-                    <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        autocomplete="current-password"
-                        v-model="user.password"
-                        required
-                        class="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
-                    />
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <input
-                        id="remember-me"
-                        name="remember-me"
-                        type="checkbox"
-                        v-model="user.remember"
-                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <label
-                        for="remember-me"
-                        class="ml-2 block text-sm text-gray-900"
-                        >Remember me</label
-                    >
                 </div>
             </div>
 
@@ -119,18 +79,16 @@
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                     </svg>
-                    Sign in
+                    Forgot
                 </button>
             </div>
         </form>
 
         <p class="mt-10 text-center text-sm text-gray-500">
-            Not a member?
-            {{ " " }}
             <router-link
-                :to="{ name: 'Register' }"
+                :to="{ name: 'Login' }"
                 class="font-semibold leading-6 text-yellow-600 hover:text-yellow-500"
-                >Register here</router-link
+                >Back to sign in</router-link
             >
         </p>
     </AuthLayout>
@@ -142,6 +100,7 @@ import AuthLayout from "../../components/layouts/AuthLayout.vue";
 import store from "../../store";
 import { useRouter } from "vue-router";
 import Alert from "../../components/Alert.vue";
+import ResetPassword from "./ResetPassword.vue";
 
 const user = ref({
     email: "",
@@ -153,26 +112,10 @@ const errors = ref("");
 const loading = ref(false)
 const router = useRouter();
 
-function login(ev) {
+function forgotPassword(ev) {
     ev.preventDefault();
 
     loading.value = true
 
-    store
-        .dispatch("login", user.value)
-        .then(() => {
-            loading.value = false
-            store.commit("notify", {
-                type: "success",
-                message: "You have succesfully logged in!",
-            });
-            router.push({
-                name: "Dashboard",
-            });
-        })
-        .catch((err) => {
-            loading.value = false
-            errors.value = err.response.data.error;
-        });
 }
 </script>

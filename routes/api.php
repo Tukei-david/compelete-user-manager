@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +29,6 @@ Route::middleware('auth:sanctum', 'admin')->group(function() {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+// Resetting password
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail']);

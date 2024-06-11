@@ -104,8 +104,6 @@ import ResetPassword from "./ResetPassword.vue";
 
 const user = ref({
     email: "",
-    password: "",
-    remember: false,
 });
 
 const errors = ref("");
@@ -116,6 +114,12 @@ function forgotPassword(ev) {
     ev.preventDefault();
 
     loading.value = true
+
+    store.dispatch("forgotPassword", user.value).then(() => {
+        console.log('Email sent !');
+    }).catch((e) => {
+        console.log('Email not sent !', e);
+    })
 
 }
 </script>

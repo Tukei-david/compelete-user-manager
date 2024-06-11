@@ -29,6 +29,10 @@ export function logout({ commit }, data) {
     });
 }
 
+export function forgotPassword({ commit }, data) {
+    return axiosClient.post("/forgot-password", data)
+}
+
 export function getUsers({ commit }, { url = null } = {}) {
     url = url || "/users";
     commit("setUsersLoading", true);

@@ -141,7 +141,6 @@ import AuthLayout from "../../components/layouts/AuthLayout.vue";
 import { useRouter } from "vue-router";
 
 const user = ref({
-    name: "",
     email: "",
     password: "",
     password_confirmation: "",
@@ -155,6 +154,12 @@ function resetPassword(e) {
     e.preventDefault();
 
     loading.value = true
+
+    store.dispatch("resetPassword", user.value).then(() => {
+        console.log('Password reset successful!');
+    }).catch((e) => {
+        console.log('Password reset not successful!', e);
+    })
 
 }
 </script>

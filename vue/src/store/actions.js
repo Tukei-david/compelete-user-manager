@@ -33,6 +33,10 @@ export function forgotPassword({ commit }, data) {
     return axiosClient.post("/forgot-password", data)
 }
 
+export function resetPassword({ commit }, data) {
+    return axiosClient.post("/reset-password", data)
+}
+
 export function getUsers({ commit }, { url = null } = {}) {
     url = url || "/users";
     commit("setUsersLoading", true);

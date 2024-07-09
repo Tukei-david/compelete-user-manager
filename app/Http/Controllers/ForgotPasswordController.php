@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ForgotPasswordRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use App\Http\Requests\ForgotPasswordRequest;
+use Illuminate\Validation\ValidationException;
 
 class ForgotPasswordController extends Controller
 {
+
+
     public function sendResetLinkEmail(ForgotPasswordRequest $request)
     {
+
         $response = $this->broker()->sendResetLink(
             $request->only('email')
         );
@@ -40,4 +44,24 @@ class ForgotPasswordController extends Controller
             'response' => $status
         ], 500);
     }
+
+    // public function sendResetLinkEmail(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => ['email']
+    //     ]);
+
+
+    //     $status = Password::sendResetLink(
+    //         $request->only('email')
+    //     );
+
+    //     if($status !== Password::RESET_LINK_SENT) {
+    //         throw ValidationException::withMessages([
+    //             'email' => [_($status)],
+    //         ]);
+    //     }
+
+    //     return response()->json(['status' => _($status)]);
+    // }
 }

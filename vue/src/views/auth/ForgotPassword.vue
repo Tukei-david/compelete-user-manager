@@ -2,7 +2,8 @@
     <AuthLayout title="Forgot your password">
         <div class="-mt-5 mb-5">
             <p class="text-center text-gray-900 font-normal">
-                We will send an email to your box, just follow that link to set your new password.
+                We will send an email to your box, just follow that link to set
+                your new password.
             </p>
         </div>
         <form class="space-y-6" @submit="forgotPassword">
@@ -46,7 +47,7 @@
                         name="email"
                         type="email"
                         autocomplete="email"
-                        v-model="user.email"
+                        v-model="email"
                         required
                         class="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-600 sm:text-sm sm:leading-6"
                     />
@@ -102,24 +103,25 @@ import { useRouter } from "vue-router";
 import Alert from "../../components/Alert.vue";
 import ResetPassword from "./ResetPassword.vue";
 
-const user = ref({
-    email: "",
-});
+const email = ref("");
 
 const errors = ref("");
-const loading = ref(false)
+const loading = ref(false);
 const router = useRouter();
 
 function forgotPassword(ev) {
     ev.preventDefault();
 
-    loading.value = true
+    console.log(email.value);
+    loading.value = true;
 
-    store.dispatch("forgotPassword", user.value).then(() => {
-        console.log('Email sent !');
-    }).catch((e) => {
-        console.log('Email not sent !', e);
-    })
-
+    store
+        .dispatch("forgotPassword", email.value)
+        .then(() => {
+            console.log("Email sent !");
+        })
+        .catch((e) => {
+            console.log("Email not sent !", e);
+        });
 }
 </script>

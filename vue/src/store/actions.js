@@ -30,6 +30,7 @@ export function logout({ commit }, data) {
 }
 
 export function forgotPassword({ commit }, data) {
+    console.log('Email', data);
     return axiosClient.post("/forgot-password", data)
 }
 

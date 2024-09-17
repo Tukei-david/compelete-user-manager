@@ -84,7 +84,7 @@ class UserController extends Controller
 
         $data['updated_by'] = $request->user()->id;
 
-        if (!isset($data['image'])) {
+        if (isset($data['image'])) {
             $relativePath = $this->saveImage($data['image']);
             $data['image'] = $relativePath;
 

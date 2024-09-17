@@ -17,6 +17,7 @@
                             >
                         </div>
                     </th>
+                    <th scope="col">Profile Picture</th>
                     <th scope="col">User name</th>
                     <th scope="col">Mail</th>
                     <th scope="col">Created at</th>
@@ -51,8 +52,15 @@
                         scope="row"
                         class="font-medium text-gray-900 whitespace-nowrap"
                     >
-                        {{ user.name }}
+                        <!-- {{ user.name }} -->
+                        <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                     </th>
+                    <td
+                        scope="row"
+                        class="font-medium text-gray-900 whitespace-nowrap"
+                    >
+                        {{ user.name }}
+                    </td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.created_at }}</td>
                     <td>

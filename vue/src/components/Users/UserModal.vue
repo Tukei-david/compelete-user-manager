@@ -123,13 +123,14 @@
                                             Profile picture
                                         </label>
                                         <div class="mt-1 flex items-center">
-                                            <!-- <img
-                                                v-if="model.image_url"
-                                                :src="model.image_url"
-                                                :alt="model.title"
+                                            <img
+                                                v-if="user.image"
+                                                :src="user.image"
+                                                :alt="user.name"
                                                 class="w-64 h-48 object-cover"
-                                            /> -->
+                                            />
                                             <span
+                                                v-else
                                                 class="flex items-center justify-center h-12 w-12 rounded-full overflow-hidden bg-gray-100"
                                             >
                                                 <svg
@@ -153,13 +154,14 @@
                                             >
                                                 <input
                                                     type="file"
+                                                    @change="onImageChoose"
                                                     class="absolute left-0 top-0 right-0 bottom-0 opacity-0 cursor-pointer"
                                                 />
-                                                <!-- {{
-                                                    route.params.id
+                                                {{
+                                                    user.id
                                                         ? "Change"
                                                         : "Upload"
-                                                }} --> Upload
+                                                }}
                                             </button>
                                         </div>
                                     </div>
@@ -274,6 +276,7 @@ const props = defineProps({
 
 const user = ref({
     id: props.user.id,
+    image: props.user.image,
     name: props.user.name,
     email: props.user.email,
 });
@@ -284,6 +287,7 @@ const errors = ref("");
 onUpdated(() => {
     user.value = {
         id: props.user.id,
+        image: props.user.image,
         name: props.user.name,
         email: props.user.email,
     };
@@ -303,6 +307,17 @@ function closeModal() {
     errors.value = "";
 }
 
+function onImageChoose(ev) {
+    const file = ev.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        user.value.image = reader.result;
+    }
+
+    reader.readAsDataURL(file)
+}
+
 function saveUser() {
     loading.value = true;
     let action = "created";
@@ -314,6 +329,7 @@ function saveUser() {
     store
         .dispatch("saveUser", { ...user.value })
         .then((res) => {
+            console.log(user.value, "User");
             loading.value = false;
             store.commit("notify", {
                 type: "success",

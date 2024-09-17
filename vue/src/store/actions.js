@@ -44,6 +44,8 @@ export function deleteUser({ commit }, id) {
 }
 
 export function saveUser({ commit }, user) {
+    // delete user.image_url
+    console.log('Actions:', user);
     if (user.id) {
         return axiosClient.put(`/users/${user.id}`, user)
     } else {

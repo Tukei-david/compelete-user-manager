@@ -23,6 +23,7 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
+            'image' => ['nullable', 'string'],
             'name' => ['required', 'max:55'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', Password::min(8)->numbers()->symbols()]

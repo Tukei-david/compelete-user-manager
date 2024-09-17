@@ -23,6 +23,7 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
+            'image' => ['nullable', 'string'],
             'name' => ['max:55'],
             'email' => ['email'],
             'password' => ['nullable', Password::min(8)->numbers()->letters()->symbols()]

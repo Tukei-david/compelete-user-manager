@@ -127,7 +127,7 @@
                                                 v-if="user.image"
                                                 :src="user.image"
                                                 :alt="user.name"
-                                                class="w-64 h-48 object-cover"
+                                                class="h-12 w-12 object-cover rounded-full"
                                             />
                                             <span
                                                 v-else

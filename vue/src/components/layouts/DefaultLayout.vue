@@ -16,6 +16,8 @@ import Navbar from "../Navbar.vue";
 // Get user
 const currentUser = computed(() => store.state.user.data);
 
+console.log(currentUser);
+
 
 onMounted( () => {
     store.dispatch('getCurrentUser');

@@ -52,8 +52,32 @@
                         scope="row"
                         class="font-medium text-gray-900 whitespace-nowrap"
                     >
-                        <!-- {{ user.name }} -->
-                        <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                        
+                        <img
+                                        v-if="user.image"
+                                        class="h-10 w-10 rounded-full ring-2 ring-white"
+                                        :src="user.image"
+                                        :alt="user.name"
+                                    />
+                                    <span
+                                        v-else
+                                        class="flex items-center justify-center h-10 w-10 rounded-full overflow-hidden ring-2 ring-white"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1"
+                                            stroke="currentColor"
+                                            class="size-10 text-gray-500"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                            />
+                                        </svg>
+                                    </span>
                     </th>
                     <td
                         scope="row"
@@ -122,7 +146,10 @@
                     users.to
                 }}</span></span
             >
-            <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8" v-if="users.total > users.limit">
+            <ul
+                class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8"
+                v-if="users.total > users.limit"
+            >
                 <li v-for="(link, i) of users.links" :key="i">
                     <a
                         v-html="link.label"
@@ -168,9 +195,9 @@ function deleteUser(p) {
 function getForPage(link) {
     console.log(link);
     if (!link.url || link.active) {
-        return
+        return;
     }
     window.scrollTo(0, 0);
-    store.dispatch("getUsers", { url: link.url })
+    store.dispatch("getUsers", { url: link.url });
 }
 </script>

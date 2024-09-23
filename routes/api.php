@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,12 @@ Route::middleware('auth:sanctum', 'admin')->group(function() {
     Route::apiResource('/users', UserController::class);
 });
 
+// New group for all authenticated users
+Route::middleware('auth:sanctum')->group(function() {
+    Route::patch('/update-intro', [ProfileController::class, 'updateIntro']);
+});
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+

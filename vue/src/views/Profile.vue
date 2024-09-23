@@ -9,6 +9,7 @@
                 <!-- Images container -->
                 <div class="flex justify-end pb-3">
                     <button
+                        @click="showUserProfileModal"
                         class="hover:text-yellow-600 text-gray-500"
                     >
                         <svg
@@ -50,6 +51,7 @@
                     <h4 class="text-xl font-bold text-yellow-900">About me</h4>
                     <button
                         class="hover:text-yellow-600 text-gray-500"
+                        @click="showUserAboutModal"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -87,6 +89,7 @@
                     <h4 class="text-xl font-bold text-yellow-900">Contact Info</h4>
                     <button
                         class="hover:text-yellow-600 text-gray-500"
+                        @click="showContactInfoModal"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -113,9 +116,62 @@
                 </p>
             </div>
         </div>
+        <ProfileModal v-model="showIntroModal" :userProfile="userProfileModel" 
+        @close="onModalClose"/>
+        <AboutModal v-model="showAboutModal" :userProfile="userProfileModel" @close="onModalClose"/>
+        <ContactInfoModel v-model="showContactModal" :userProfile="userProfileModel" @close="onModalClose" />
     </PageComponent>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import PageComponent from "../components/layouts/PageComponent.vue";
+import ProfileModal from "../components/profile/ProfileModal.vue";
+import AboutModal from "../components/profile/AboutModal.vue";
+import ContactInfoModel from "../components/profile/ContactInfoModel.vue";
+
+const DEFAULT_USER_PROFILE = {
+    id: '',
+    cover_photo: '',
+    birthday_date: '',
+    gender: '',
+    street_address: '',
+    zip_code: '',
+    country: '',
+    province: '',
+    about: '',
+    phone_number: '',
+    sub_title: ''
+}
+
+const userProfileModel = ref({...DEFAULT_USER_PROFILE})
+const showIntroModal = ref(false)
+const showAboutModal = ref(false)
+const showContactModal = ref(false)
+
+function showModal(modal) {
+    if (modal === 'intro') {
+        showIntroModal.value = true
+    } else if (modal === 'about') {
+        showAboutModal.value = true;
+    } else if (modal === 'contact') {
+        showContactModal.value = true
+    }
+}
+
+function showUserProfileModal() {
+    showModal('intro')
+}
+
+function showUserAboutModal() {
+    showModal('about')
+}
+
+function showContactInfoModal() {
+    showModal('contact')
+}
+
+function onModalClose() {
+    userProfileModel.value = {...DEFAULT_USER_PROFILE}
+}
 </script>

@@ -18,5 +18,8 @@ export default {
         limit: null,
         total: null,
         last_page: null
+    },
+    profile: {
+        data: {}
     }
 };

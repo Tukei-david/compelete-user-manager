@@ -117,7 +117,7 @@
                                         </span>
                                     </div>
                                 </Alert>
-                                <form>
+                                <form @submit.prevent="updateIntro">
                                     <div class="space-y-12">
                                         <div
                                             class="border-b border-gray-900/10 pb-12"
@@ -269,6 +269,7 @@
                                                         <select
                                                             id="country"
                                                             name="country"
+                                                            v-model="userProfile.country"
                                                             autocomplete="country-name"
                                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500"
                                                         >
@@ -296,6 +297,7 @@
                                                             type="text"
                                                             name="region"
                                                             id="region"
+                                                            v-model="userProfile.province"
                                                             autocomplete="address-level1"
                                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500"
                                                         />
@@ -331,6 +333,7 @@
                                                             type="text"
                                                             name="postal-code"
                                                             id="postal-code"
+                                                            v-model="userProfile.zip_code"
                                                             autocomplete="postal-code"
                                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500"
                                                         />
@@ -348,6 +351,7 @@
                                                             type="text"
                                                             name="street-address"
                                                             id="street-address"
+                                                            v-model="userProfile.street_address"
                                                             autocomplete="street-address"
                                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500"
                                                         />
@@ -462,6 +466,11 @@ function onImageChoose(ev) {
     };
 
     reader.readAsDataURL(file);
+}
+
+function updateIntro() {
+    console.log("Form Values ", userProfile.value);
+    store.dispatch("updateIntro", { ...userProfile.value });
 }
 
 // function saveUser() {

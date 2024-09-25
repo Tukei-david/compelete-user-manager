@@ -9,7 +9,7 @@
                 <!-- Images container -->
                 <div class="flex justify-end pb-3">
                     <button
-                        @click="showUserProfileModal"
+                        @click="showUserIntroModal"
                         class="hover:text-yellow-600 text-gray-500"
                     >
                         <svg
@@ -116,7 +116,7 @@
                 </p>
             </div>
         </div>
-        <ProfileModal v-model="showIntroModal" :userProfile="userProfileModel" 
+        <IntroModal v-model="showIntroModal" :userProfile="userProfileModel" 
         @close="onModalClose"/>
         <AboutModal v-model="showAboutModal" :userProfile="userProfileModel" @close="onModalClose"/>
         <ContactInfoModel v-model="showContactModal" :userProfile="userProfileModel" @close="onModalClose" />
@@ -126,7 +126,7 @@
 <script setup>
 import { ref } from "vue";
 import PageComponent from "../components/layouts/PageComponent.vue";
-import ProfileModal from "../components/profile/ProfileModal.vue";
+import IntroModal from "../components/profile/IntroModal.vue";
 import AboutModal from "../components/profile/AboutModal.vue";
 import ContactInfoModel from "../components/profile/ContactInfoModel.vue";
 
@@ -159,7 +159,7 @@ function showModal(modal) {
     }
 }
 
-function showUserProfileModal() {
+function showUserIntroModal() {
     showModal('intro')
 }
 

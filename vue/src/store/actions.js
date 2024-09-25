@@ -52,3 +52,11 @@ export function saveUser({ commit }, user) {
         return axiosClient.post('/users', user)
     }
 }
+
+// Profile page
+
+export function updateIntro({ commit }, intro) {
+    console.log('Intro Values action:', intro)
+
+    return axiosClient.patch('/update-intro', intro)
+}

@@ -27,9 +27,9 @@ Route::middleware('auth:sanctum', 'admin')->group(function() {
 });
 
 // New group for all authenticated users
-Route::middleware('auth:sanctum')->group(function() {
-    Route::patch('/update-intro', [ProfileController::class, 'updateIntro']);
-});
+// Route::middleware('auth:sanctum')->group(function() {
+//     Route::patch('/update-intro', [ProfileController::class, 'updateIntro']);
+// });
 
 
 Route::post('/register', [AuthController::class, 'register']);

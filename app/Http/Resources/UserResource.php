@@ -18,9 +18,17 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'cover_photo' => $this->image ? URL::to($this->image) : null,
             'image' => $this->image ? URL::to($this->image) : null,
             'name' => $this->name,
             'email' => $this->email,
+            'birthday_date' => $this->birthday_date,
+            'gender' => $this->gender,
+            'street_address' => $this->street_address,
+            'zip_code' => $this->zip_code,
+            'country' => $this->country,
+            'province' => $this->province,
+            'city' => $this->city,
             'email_verified_at' => $this->email_verified_at ? (new DateTime($this->email_verified_at))->format('Y-m-d H:i:s') : null,
             'is_admin' => $this->is_admin,
             'created_at' => (new DateTime($this->created_at))->format('Y-m-d H:i:s'),
